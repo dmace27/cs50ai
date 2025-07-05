@@ -92,15 +92,18 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
     num_explored = 0
+    # if the source and target are the same an empty path is returned
     if source == target:
         path = []
         return path
 
+    # initializing the frontier, explored sets and start node
     start = Node(state=source, parent=None, action=None)
     frontier = QueueFrontier()
     frontier.add(start)
     explored = set()
 
+    # BFS repeat block
     while True:
         
         if frontier.empty() == True:
@@ -121,7 +124,7 @@ def shortest_path(source, target):
                 child = Node(state=actor, parent=node, action=movie)
                 if child.state == target:
                     
-                    # return statement
+                    #finding the path from the target back to the source
                     path = []
                     node = child
                     while node.parent is not None:
@@ -129,6 +132,7 @@ def shortest_path(source, target):
                         node = node.parent
                     path.reverse()
                     return path
+                # adding the new neighbors to the frontier
                 frontier.add(child)
 
 
