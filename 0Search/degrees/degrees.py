@@ -93,7 +93,8 @@ def shortest_path(source, target):
     """
     num_explored = 0
     if source == target:
-        return None
+        path = []
+        return path
 
     start = Node(state=source, parent=None, action=None)
     frontier = QueueFrontier()
