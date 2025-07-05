@@ -92,6 +92,8 @@ def shortest_path(source, target):
     If no possible path, returns None.
     """
     num_explored = 0
+    if source == target:
+        return None
 
     start = Node(state=source, parent=None, action=None)
     frontier = QueueFrontier()
@@ -100,7 +102,7 @@ def shortest_path(source, target):
 
     while True:
         
-        if frontier.empty==True:
+        if frontier.empty()==True:
             return None
         
         # exploring the next node
@@ -127,12 +129,6 @@ def shortest_path(source, target):
                     path.reverse()
                     return path
                 frontier.add(child)
-
-
-
-
-    # TODO
-    raise NotImplementedError
 
 
 def person_id_for_name(name):
