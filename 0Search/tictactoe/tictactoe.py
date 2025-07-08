@@ -47,13 +47,13 @@ def actions(board):
     Returns set of all possible actions (i, j) available on the board.
     """
     # creates a list of actions
-    possible_actions = []
+    possible_actions = set()
 
     # adds the coordinates of each empty cell to the list of possible actions
     for i in range(0, 3):
         for j in range(0, 3):
             if board[i][j] == EMPTY:
-                possible_actions.append((i, j))
+                possible_actions.add((i, j))
 
     return possible_actions
 
@@ -68,6 +68,8 @@ def result(board, action):
     # if there is no move, a copy of the same board is returned
     if action == None:
         return new_board
+    elif action[0] not in range(0, 3) or action[1] not in range(0, 3):
+        raise Exception
     # raises an exception if the move is invalid
     elif board[action[0]][action[1]] != EMPTY:
         raise Exception
@@ -85,23 +87,22 @@ def winner(board):
     # 8 different ways to win for either player
     # if one of those conditons is not met then return None
 
+    # checks if either player won diagonally
+    if board[0][0] == board[1][1] == board[2][2] != EMPTY:
+            return board[0][0]
+    elif board[0][2] == board[1][1] == board[2][0] != EMPTY:
+        return board[0][2]
+    
     for i in range(0, 3):
         # checks if any player won horizontally
-        if board[i][0] == board[i][1] == board[i][2]:
+        if board[i][0] == board[i][1] == board[i][2] != EMPTY:
             return board[i][0]
         
         # checks if any player won vertically
-        elif board[0][i] == board[1][i] == board[2][i]:
+        elif board[0][i] == board[1][i] == board[2][i] != EMPTY:
             return board[0][i]
-        
-        # checks if any player won on either diagonol
-        elif board[0][0] == board[1][1] == board[2][2]:
-            return board[0][0]
-        elif board[0][2] == board[1][1] == board[2][0]:
-            return board[0][2]
-        # if no player won
-        else:
-            return None
+      
+    return None
         
 
 def terminal(board):
@@ -140,7 +141,7 @@ def minimax(board):
     Returns the optimal action for the current player on the board.
     """
     # if the game is over there is no move to be returned
-    if terminal(board) == True:
+    if terminal(board):
         return None
     else:
         # if it's X's turn, return the score and move that is most optimal
@@ -156,7 +157,7 @@ def minimax(board):
 def max_value(board):
     
     # if the game is over, return the utility of the board
-    if terminal(board) == True:
+    if terminal(board):
         return utility(board), None
     
     # initialize v to below min possible score
@@ -167,7 +168,7 @@ def max_value(board):
     for action in actions(board):
         
         # get the score for each action possible
-        score, action = min_value(result(board, action))
+        score, act = min_value(result(board, action))
         # if the score is better (higher) than the current best score, store the move for later
         if score > v:
             v = score
@@ -183,7 +184,7 @@ def max_value(board):
 def min_value(board):
 
     # if the game is over, return the utility of the board and no move
-    if terminal(board) == True:
+    if terminal(board):
         return utility(board), None
     
     # initialize v to above max possible score
@@ -194,7 +195,7 @@ def min_value(board):
     for action in actions(board):
         
         # get the score for each action
-        score, action = max_value(result(board, action))
+        score, act = max_value(result(board, action))
         # if the score is better (lower) than previous best score, store the move
         if score < v:
             v = score
