@@ -27,8 +27,8 @@ def player(board):
     o_amount = 0
 
     # counts how many X's and O's are on the board 
-    for i in range(0,3):
-        for j in range(0,3):
+    for i in range(0, 3):
+        for j in range(0, 3):
             if board[i][j] == X:
                 x_amount += 1
             elif board[i][j] == O:
@@ -50,8 +50,8 @@ def actions(board):
     possible_actions = []
 
     # adds the coordinates of each empty cell to the list of possible actions
-    for i in range(0,3):
-        for j in range(0,3):
+    for i in range(0, 3):
+        for j in range(0, 3):
             if board[i][j] == EMPTY:
                 possible_actions.append((i, j))
 
@@ -65,8 +65,11 @@ def result(board, action):
     # creates a deep copy of the passed in board state
     new_board = copy.deepcopy(board)
 
+    # if there is no move, a copy of the same board is returned
+    if action == None:
+        return new_board
     # raises an exception if the move is invalid
-    if board[action[0]][action[1]] != EMPTY:
+    elif board[action[0]][action[1]] != EMPTY:
         raise Exception
     # returns a new board state
     else:
@@ -82,7 +85,7 @@ def winner(board):
     # 8 different ways to win for either player
     # if one of those conditons is not met then return None
 
-    for i in range(0,3):
+    for i in range(0, 3):
         # checks if any player won horizontally
         if board[i][0] == board[i][1] == board[i][2]:
             return board[i][0]
@@ -111,8 +114,8 @@ def terminal(board):
     
     # if there is no winner and there are empty cells,
     # the game is not over
-    for i in range(0,3):
-        for j in range(0,3):
+    for i in range(0, 3):
+        for j in range(0, 3):
             if board[i][j] == EMPTY:
                 return False
 
