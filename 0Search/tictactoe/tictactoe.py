@@ -89,7 +89,7 @@ def winner(board):
 
     # checks if either player won diagonally
     if board[0][0] == board[1][1] == board[2][2] != EMPTY:
-            return board[0][0]
+        return board[0][0]
     elif board[0][2] == board[1][1] == board[2][0] != EMPTY:
         return board[0][2]
     
