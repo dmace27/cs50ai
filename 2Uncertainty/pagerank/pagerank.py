@@ -152,9 +152,9 @@ def PR(corpus, d, currentValues):
             
         newValues[page] = ((1 - d) / len(corpus) + d * total)
 
-        for key in currentValues:
-            if (abs(newValues[key] - currentValues[key])) > 0.001:
-                keepGoing = True
+    for page in corpus:
+        if (abs(newValues[page] - currentValues[page])) > 0.001:
+            keepGoing = True
 
     if not keepGoing:
         return currentValues
