@@ -59,10 +59,12 @@ def transition_model(corpus, page, damping_factor):
     """
     returnDict = {}
 
+    # if there is no links on the page, the transition model gives each page an equal rank
     if corpus[page] != set():
         for key in corpus:
-            returnDict[key] = ((1- damping_factor) / len(corpus))
+            returnDict[key] = ((1 - damping_factor) / len(corpus))
         
+        # adding the random chance to come to a new random page into the page ranks
         for value in corpus[page]:
             returnDict[value] += damping_factor/len(corpus[page])
     else:
@@ -92,6 +94,7 @@ def sample_pagerank(corpus, damping_factor, n):
     sample = transition_model(corpus, random.choice(list(corpus.keys())), damping_factor)
     sampleNum += 1
 
+    # samples the page 10000 times
     while sampleNum < n:
         visitedPage = nextPage(sample)
         pagerank[visitedPage] += 1
@@ -99,11 +102,14 @@ def sample_pagerank(corpus, damping_factor, n):
         sample = transition_model(corpus, visitedPage, damping_factor)
         sampleNum += 1
     
+    # divides all the counts by the number of samples
     for key in pagerank:
         pagerank[key] /= sampleNum
 
     return pagerank
 
+
+# helper function to find the next page when given a probability distribution
 def nextPage(sample):
     val = random.random()
     ticker = 0.0
@@ -113,7 +119,6 @@ def nextPage(sample):
         if val < ticker:
             return key
 
-    
 
 def iterate_pagerank(corpus, damping_factor):
     """
@@ -124,20 +129,20 @@ def iterate_pagerank(corpus, damping_factor):
     their estimated PageRank value (a value between 0 and 1). All
     PageRank values should sum to 1.
     """
+    # starts each rank at 1/N
     pagerank = {}
     for key in corpus:
         pagerank[key] = 1/len(corpus)
 
-    
     return PR(corpus, damping_factor, pagerank)
 
 
+# helper recursive function to find the page ranks
 def PR(corpus, d, currentValues):
-    
+
     newValues = {}
     keepGoing = False
 
-    
     for page in corpus:
         total = 0
 
@@ -152,16 +157,17 @@ def PR(corpus, d, currentValues):
             
         newValues[page] = ((1 - d) / len(corpus) + d * total)
 
+    # if values aren't moving above the threshold amount, recursion stops
     for page in corpus:
         if (abs(newValues[page] - currentValues[page])) > 0.001:
             keepGoing = True
 
+    # stops recursion or goes to the next iteration
     if not keepGoing:
         return currentValues
     else:
         return PR(corpus, d, newValues)
 
+
 if __name__ == "__main__":
     main()
-
-
