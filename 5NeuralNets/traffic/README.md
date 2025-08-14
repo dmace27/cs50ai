@@ -23,3 +23,11 @@ My first model was
 This ended giving me accuracy of 0.0554 and loss of 3.4969. 
 This model evidently was not large enough to make solid predictions and was only a little better than random guessing. 
 I am going to add another hidden layers with Dropout and extend each hidden layer to be 64 units each. I am also going to add another convolution and pooling cycle and increase the filters in each layer from 32 to 64
+
+That model only ended up giving me accuracy of around 0.103
+After doing some research, I added two more convolution layers to 
+detect the details of the images, added more filters for each layer, and lowered the dropout rate. After lowering the dropout rate to 0.3, and increases the filters, the model performed extremely well, with an accuracy of 0.9896. 
+
+I noticed that if there is more detail in the images, there needs
+to be more convolution layers. I also learned that if the dataset
+is relatively small, like this one, you shouldn't use a high dropout rate. 

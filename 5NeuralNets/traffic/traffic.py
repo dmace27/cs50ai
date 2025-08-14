@@ -61,7 +61,6 @@ def load_data(data_dir):
     images = []
     labels = []
 
-
     directory_path = os.path.join(os.getcwd(), data_dir)
     count = 0
     for dir in os.listdir(directory_path):
@@ -94,15 +93,15 @@ def get_model():
 
         # First Convolution Layer
         tf.keras.layers.Input(shape=(IMG_WIDTH, IMG_HEIGHT, 3)),
-        tf.keras.layers.Conv2D(32, (3,3), activation='relu'),
-        tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
+        tf.keras.layers.Conv2D(32, (3, 3), activation='relu'),
+        tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
 
         # Max-pooling layer using 2x2 pool size
         tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
 
         # Second Convolution Layer
-        tf.keras.layers.Conv2D(64, (3,3), activation='relu'),
-        tf.keras.layers.Conv2D(128, (3,3), activation='relu'),
+        tf.keras.layers.Conv2D(64, (3, 3), activation='relu'),
+        tf.keras.layers.Conv2D(128, (3, 3), activation='relu'),
 
         # Max-pooling layer using 2x2 pool size
         tf.keras.layers.MaxPooling2D(pool_size=(2, 2)),
@@ -122,7 +121,6 @@ def get_model():
         tf.keras.layers.Dense(128, activation="relu"),
         tf.keras.layers.Dropout(0.3),
 
-
         # Output layer with a dynamic size
         tf.keras.layers.Dense(NUM_CATEGORIES, activation="softmax")
     ])
@@ -134,9 +132,6 @@ def get_model():
     )
 
     return model
-
-    
-
 
 
 if __name__ == "__main__":
